@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agora Francia - Le magasinage en ligne de notre époque</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.7.6/dist/css/uikit.min.css" />
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('hero-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 30vh;
+        }
+        .footer {
+            background-color: #1a202c;
+        }
+        .footer .text-muted {
+            color: #b4b1b8 !important;
+        }
+    </style>
+
+    <script>
+        function handleCredentialResponse(response) {
+            // Décoder le JWT token
+            const responsePayload = jwt_decode(response.credential);
+
+            console.log("ID: " + responsePayload.sub);
+            console.log('Full Name: ' + responsePayload.name);
+            console.log('Given Name: ' + responsePayload.given_name);
+            console.log('Family Name: ' + responsePayload.family_name);
+            console.log("Image URL: " + responsePayload.picture);
+            console.log("Email: " + responsePayload.email);
+
+            // Ici, vous pouvez envoyer ces informations à votre serveur pour l'authentification
+        }
+
+        window.onload = function () {
+            google.accounts.id.initialize({
+                client_id: "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com",
+                callback: handleCredentialResponse
+            });
+            google.accounts.id.renderButton(
+                document.getElementById("googleSignInDiv"),
+                { theme: "outline", size: "large" }  // customization attributes
+            );
+            google.accounts.id.prompt(); // also display the One Tap dialog
+        }
+    </script>
+</head>
+<body class="bg-gray-100">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="accueil.html">
+                <img src="logo.png" alt="Agora Francia" width="150">
+            </a>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="accueil.html">Accueil</a></li>
+                <li class="nav-item"><a class="nav-link" href="inscription.html">Inscription</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="hero-section uk-flex uk-flex-center uk-flex-middle mb-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bold">Connexion</h1>
+        </div>
+    </header>
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body p-5">
+                        <form>
+                            <div class="mb-4">
+                                <input type="email" class="form-control form-control-lg" placeholder="Adresse e-mail">
+                            </div>
+                            <div class="mb-4">
+                                <input type="password" class="form-control form-control-lg" placeholder="Mot de passe">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-lg w-100 mb-4">Se connecter</button>
+                        </form>
+                        <div class="text-center mb-4">
+                            <a href="#" class="text-muted">Mot de passe oublié ?</a>
+                        </div>
+                        <div class="text-center mt-4">
+                            <p>Vous n'avez pas de compte ? 
+                                <a href="inscription.html" class="text-primary">Inscrivez-vous</a>
+                            </p>
+                        </div>
+                        <hr>
+                        <div class="text-center mt-4">
+                            <p class="text-muted mb-4">Ou connectez-vous avec</p><div id="g_id_onload"
+     data-client_id="YOUR_GOOGLE_SIGN_IN_CLIENT_ID.apps.googleusercontent.com"
+     data-callback="onSignIn">
+</div>
+<div class="g_id_signin"
+     data-type="standard"
+     data-size="large"
+     data-theme="outline"
+     data-text="sign_in_with"
+     data-shape="rectangular"
+     data-logo_alignment="left">
+</div>
+                            <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+                            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pied de page -->
+    <footer class="footer py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5 class="text-white">Liens rapides</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted">Accueil</a></li>
+                        <li><a href="#" class="text-muted">Catégories</a></li>
+                        <li><a href="#" class="text-muted">Vendre</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="text-white">Suivez-nous</h5>
+                    <div class="uk-flex uk-flex-left">
+                        <a href="#" class="uk-icon-button uk-margin-small-right" uk-icon="twitter"></a>
+                        <a href="#" class="uk-icon-button uk-margin-small-right" uk-icon="facebook"></a>
+                        <a href="#" class="uk-icon-button" uk-icon="instagram"></a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="text-white">Contact</h5>
+                    <address class="text-muted">
+                        <p>123 Rue du Commerce, 75001 Paris</p>
+                        <p>Email: contact@agorafrancia.com</p>
+                        <p>Tél: +33 1 23 45 67 89</p>
+                    </address>
+                </div>
+            </div>
+            <hr class="my-4 bg-gray-600">
+            <p class="text-center text-muted">© 2024 Agora Francia. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.6/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.6/dist/js/uikit-icons.min.js"></script>
+    
+    <script src="https://unpkg.com/jwt-decode/build/jwt-decode.js"></script>
+</body>
+</html>

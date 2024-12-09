@@ -1,0 +1,36 @@
+Accueil (Page publique)
+│
+├─► Connexion
+│   │
+│   ├─► [Si compte existe] ──► Page principale (utilisateur connecté)
+│   │                           │
+│   │                           ├─► Tout Parcourir
+│   │                           │   │
+│   │                           │   └─► Détails du produit
+│   │                           │       │
+│   │                           │       ├─► Vente immédiate
+│   │                           │       │   └─► Panier ──► Paiement
+│   │                           │       │
+│   │                           │       ├─► Vente par négociation
+│   │                           │       │   └─► Chatroom de négociation
+│   │                           │       │
+│   │                           │       └─► Vente par meilleure offre
+│   │                           │           └─► Interface d'enchères
+│   │                           │
+│   │                           ├─► Profil utilisateur
+│   │                           │   │
+│   │                           │   └─► [Si vendeur] Gestion des annonces
+│   │                           │
+│   │                           ├─► Notifications
+│   │                           │
+│   │                           ├─► Panier
+│   │                           │
+│   │                           └─► [Si admin] Espace administrateur --->** ajouts,modifs,visuals
+│   │
+│   └─► [Si compte n'existe pas] ──► Inscription
+│
+├─► À Propos (Page publique)
+│
+├─► FAQ (Page publique)
+│
+└─► Contact (Page publique)

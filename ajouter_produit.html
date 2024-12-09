@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter un Produit - Agora Francia</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.jsdelivr.net/npm/uikit@3.7.6/dist/css/uikit.min.css" rel="stylesheet"/>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img src="logo.png" alt="Agora Francia" width="150">
+        </a>
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="#">Tableau de Bord</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Déconnexion</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class='container my-5'>
+    <h2>Ajouter un Produit</h2> 
+    <form id="addProductForm">
+        <div class="mb-3">
+            <label for="productName" class="form-label">Nom du Produit</label>
+            <input type="text" class="form-control" id="productName" required />
+        </div>
+        <div class="mb-3">
+            <label for="shortDescription" class="form-label">Description Courte</label>
+            <textarea class="form-control" id="shortDescription" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="detailedDescription" class="form-label">Description Détailée</label>
+            <textarea class="form-control" id="detailedDescription"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="productPrice" class="form-label">Prix (€)</label>
+            <input type="number" step=".01" class="form-control" id="productPrice" required />
+        </div>
+        <div class="mb-3">
+            <label for="productQuantity" class="form-label">Quantité</label>
+            <input type="number" min="1" value="1" class="form-control" id="productQuantity" required />
+        </div>
+        <div class='mb-3'>
+            <label for='productImage' class='form-label'>Image du Produit</label>
+            <input type='file' accept='image/*' id='productImage' required />
+        </div>
+        <button type='submit' class='btn btn-success'>Ajouter le Produit</button>
+        <a href="#" class='btn btn-light'>Annuler</a>
+    </form>
+</div>
+
+<footer class='footer py-5'>
+   ...
+</footer>
+
+<script src="//cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+// Logique pour ajouter un produit
+document.getElementById('addProductForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert('Produit ajouté avec succès !');
+});
+</script>
+
+</body>
+</html>

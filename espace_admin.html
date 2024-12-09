@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Administrateur - Agora Francia</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.jsdelivr.net/npm/uikit@3.7.6/dist/css/uikit.min.css" rel="stylesheet"/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .footer {
+            background-color: #1a202c;
+        }
+        .footer .text-muted {
+            color: #e2e8f0 !important;
+        }
+        .table th, .table td {
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img src="logo.png" alt="Agora Francia" width="150">
+        </a>
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="#">Tableau de Bord</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Déconnexion</a></li>
+            <li class="nav-item">
+                <label for="themeSelector" class="form-label me-2">Thème:</label>
+                <select id="themeSelector" class="form-select d-inline-block" style="width: auto;">
+                    <option value="light">Clair</option>
+                    <option value="dark">Sombre</option>
+                </select>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class='container my-5'>
+    <h2>Espace Administrateur</h2> 
+
+    <!-- Menu déroulant -->
+    <div class='mb-3'>
+        <button class='btn btn-primary' id='toggleUsers'>Gestion des Utilisateurs</button>
+        <button class='btn btn-primary' id='toggleProducts'>Gestion des Produits</button>
+        <button class='btn btn-primary' id='toggleOrders'>Gestion des Commandes</button>
+        <button class='btn btn-primary' id='toggleSellers'>Gestion des Vendeurs</button>
+    </div>
+
+    <!-- Sections cachées -->
+    <div id='usersSection' style='display:none;'>
+        <h4>Gestion des Utilisateurs</h4>
+        <button class='btn btn-success mb-3' onclick='addUser()'>Ajouter un Utilisateur</button>
+        <table class='table'>
+            <thead>
+                <tr><th>ID</th><th>Nom</th><th>Email</th><th>Actions</th></tr>
+            </thead>
+            <tbody id='userList'>
+                <!-- Exemple d'utilisateur -->
+                <tr><td>1</td><td>Jean Dupont</td><td>jean@example.com</td><td><button onclick='editUser(1)' class='btn btn-secondary'>Modifier</button><button onclick='confirmDeleteUser(1)' class='btn btn-danger'>Supprimer</button></td></tr>            
+                <!-- Répéter pour chaque utilisateur -->
+            </tbody>
+        </table>
+        <button class='btn btn-info' onclick='viewAllUsers()'>Voir Tous les Utilisateurs</button>
+    </div>
+
+    <div id='productsSection' style='display:none;'>
+        <h4>Gestion des Produits</h4>
+        <button class='btn btn-success mb-3' onclick='addProduct()'>Ajouter un Produit</button>
+        <table class='table'>
+            <thead>
+                <tr><th>ID</th><th>Nom du Produit</th><th>Prix</th><th>Actions</th></tr>
+            </thead>
+            <tbody id='productList'>
+                <!-- Exemple de produit -->
+                <tr><td>1</td><td>Produit A</td><td>€XX.XX</td><td><button onclick='editProduct(1)' class='btn btn-secondary'>Modifier</button><button onclick='confirmDeleteProduct(1)' class='btn btn-danger'>Supprimer</button></td></tr>            
+                <!-- Répéter pour chaque produit -->
+            </tbody>
+        </table>
+        <button class='btn btn-info' onclick='viewAllProducts()'>Voir Tous les Produits</button>
+    </div>
+
+    <div id='ordersSection' style='display:none;'>
+        <h4>Gestion des Commandes</h4>
+        <button class='btn btn-success mb-3' onclick='addOrder()'>Ajouter une Commande</button>
+        <table class='table'>
+            <thead>
+                <tr><th>ID Commande</th><th>Client</th><th>Total (€)</th><th>Date</th><th>Status</th></tr>
+            </thead>
+            <tbody id='orderList'>
+                <!-- Exemple de commande -->
+                <tr><td>#12345</td><td>Jean Dupont</td><td>€XX.XX</td><td>01/01/2024</td><td>Complétée</td></tr>            
+                <!-- Répéter pour chaque commande -->
+            </tbody>
+        </table>
+
+        <!-- Bouton pour visualiser toutes les commandes -->
+        <button class='btn btn-info' onclick='viewAllOrders()'>Voir Toutes les Commandes</button>
+
+    </div>
+
+    <div id='sellersSection' style='display:none;'>
+       <!-- Gestion des Vendeurs -->
+       <!-- Ajouter le contenu ici -->
+       ...
+       <!-- Bouton pour visualiser tous les vendeurs -->
+       ...
+   </div>
+
+   <!-- Lien retour -->
+   <div class='text-center mt-4'>
+       <a href="#" class='btn btn-light'>Retour à la page principale</a>
+   </div>
+
+<!-- Pied de page -->
+<footer class="footer py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h5 class="text-white">Liens rapides</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-muted">Accueil</a></li>
+                    <li><a href="#" class="text-muted">Catégories</a></li>
+                    <li><a href="#" class="text-muted">Vendre</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5 class="text-white">Suivez-nous</h5>
+                <div class="uk-flex uk-flex-left">
+                    <a href="#" class="uk-icon-button uk-margin-small-right" uk-icon="twitter"></a>
+                    <a href="#" class="uk-icon-button uk-margin-small-right" uk-icon="facebook"></a>
+                    <a href="#" class="uk-icon-button" uk-icon="instagram"></a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <h5 class="text-white">Contact</h5>
+                <address class="text-muted">
+                    <p>123 Rue du Commerce, 75001 Paris</p>
+                    <p>Email: contact@agorafrancia.com</p>
+                    <p>Tél: +33 1 23 45 67 89</p>
+                </address>
+            </div>
+        </div>
+        <hr class="my-4 bg-gray-600">
+        <p class="text-center text-muted">© 2024 Agora Francia. Tous droits réservés.</p>
+    </div>
+</footer>
+
+<script src="//cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+// Fonction pour afficher/cacher les sections
+$(document).ready(function() {
+    $('#toggleUsers').click(function() {
+        $('#usersSection').toggle();
+        $('#productsSection').hide();
+        $('#ordersSection').hide();
+        $('#sellersSection').hide();
+    });
+
+    $('#toggleProducts').click(function() {
+        $('#productsSection').toggle();
+        $('#usersSection').hide();
+        $('#ordersSection').hide();
+        $('#sellersSection').hide();
+    });
+
+    $('#toggleOrders').click(function() {
+        $('#ordersSection').toggle();
+        $('#usersSection').hide();
+        $('#productsSection').hide();
+        $('#sellersSection').hide();
+    });
+
+    $('#toggleSellers').click(function() {
+       $('#sellersSection').toggle();
+       $('#usersSection').hide();
+       $('#productsSection').hide();
+       $('#ordersSection').hide();
+   });
+
+   // Changement de thème
+   $('#themeSelector').change(function() {
+       const selectedTheme = $(this).val();
+       if (selectedTheme === 'dark') {
+           $('body').css('background-color', '#343a40');
+           $('body').css('color', '#ffffff');
+           $('.footer').css('background-color', '#212529');
+       } else {
+           $('body').css('background-color', '#f8f9fa');
+           $('body').css('color', '#000000');
+           $('.footer').css('background-color', '#1a202c');
+       }
+   });
+});
+
+// Fonctions pour gérer les utilisateurs
+function confirmDeleteUser(userId) {
+   if (confirm("Êtes-vous sûr de vouloir supprimer cet utilisateur ?")) {
+       // Logique pour supprimer l'utilisateur ici
+       alert('Utilisateur supprimé avec succès !');
+   }
+}
+
+function editUser(userId) {
+   alert('Fonctionnalité à développer : Modifier l\'utilisateur.');
+}
+
+// Fonctions pour gérer les produits
+function confirmDeleteProduct(productId) {
+   if (confirm("Êtes-vous sûr de vouloir supprimer ce produit ?")) {
+       // Logique pour supprimer le produit ici
+       alert('Produit supprimé avec succès !');
+   }
+}
+
+function editProduct(productId) {
+   alert('Fonctionnalité à développer : Modifier le produit.');
+}
+
+// Fonctions pour gérer les commandes
+function viewAllOrders() {
+   alert('Fonctionnalité à développer : Voir toutes les commandes.');
+}
+
+// Fonctions pour gérer les vendeurs
+function viewAllUsers() {
+   alert('Fonctionnalité à développer : Voir tous les utilisateurs.');
+}
+
+function viewAllProducts() {
+   alert('Fonctionnalité à développer : Voir tous les produits.');
+}
+  
+// Fonctionnalités d'ajout d'utilisateur ou de produit (à développer)
+function addUser() {
+   alert('Fonctionnalité à développer : Ajouter un utilisateur.');
+}
+
+function addProduct() {
+   alert('Fonctionnalité à développer : Ajouter un produit.');
+}
+  
+// Fonctionnalités d'ajout de commande (à développer)
+function addOrder() {
+   alert('Fonctionnalité à développer : Ajouter une commande.');
+}
+  
+// Fonctionnalités d'ajout de vendeur (à développer)
+function addSeller() {
+   alert('Fonctionnalité à développer : Ajouter un vendeur.');
+}
+  
+// Fonctionnalités d'ajout d'annonce (à développer)
+function addAnnouncement() {
+   alert('Fonctionnalité à développer : Ajouter une annonce.');
+}
+  
+// Fonctionnalités d'ajout d'enchère (à développer)
+function addBid() {
+   alert('Fonctionnalité à développer : Ajouter une enchère.');
+}
+  
+// Fonctionnalités d'ajout d'avis (à développer)
+function addReview() {
+   alert('Fonctionnalité à développer : Ajouter un avis.');
+}
+  
+// Fonctionnalités d'ajout de notification (à développer)
+function addNotification() {
+   alert('Fonctionnalité à développer : Ajouter une notification.');
+}
+
+</script>
+
+</body>
+</html>
+

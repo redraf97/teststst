@@ -1,0 +1,262 @@
+CREATE DATABASE agora;
+USE agora;
+
+-- Table des Utilisateurs
+CREATE TABLE Utilisateurs (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Nom VARCHAR(100) NOT NULL,
+    Prenom VARCHAR(100) NOT NULL,
+    Email VARCHAR(255) UNIQUE NOT NULL,
+    MotDePasse VARCHAR(255) NOT NULL,
+    Type ENUM('Administrateur', 'Vendeur', 'Acheteur') NOT NULL,
+    DateInscription DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Adresse TEXT,
+    Telephone VARCHAR(20),
+    DateNaissance DATE,
+    PhotoProfil VARCHAR(255),
+    Statut ENUM('Actif', 'Inactif', 'Suspendu') DEFAULT 'Actif',
+    DerniereConnexion DATETIME
+);
+
+-- Table des Produits
+CREATE TABLE Produits (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Nom VARCHAR(255) NOT NULL,
+    Description TEXT,
+    Prix DECIMAL(10, 2) NOT NULL,
+    Categorie VARCHAR(100) NOT NULL,
+    SousCategorie VARCHAR(100),
+    Vendeur_ID INT NOT NULL,
+    TypeVente ENUM('Immediate', 'Negociation', 'MeilleureOffre') NOT NULL,
+    Quantite INT NOT NULL,
+    Promotion DECIMAL(5, 2),
+    Taille VARCHAR(50),
+    Couleur VARCHAR(50),
+    Morphologie VARCHAR(100),
+    Marque VARCHAR(100),
+    Etat VARCHAR(50) NOT NULL,
+    DateAjout DATETIME DEFAULT CURRENT_TIMESTAMP,
+    DateModification DATETIME ON UPDATE CURRENT_TIMESTAMP,
+    Statut ENUM('Actif', 'Vendu', 'Retire') DEFAULT 'Actif',
+    VuesTotal INT DEFAULT 0,
+    FOREIGN KEY (Vendeur_ID) REFERENCES Utilisateurs(ID)
+);
+
+-- Table des Images de Produits
+CREATE TABLE ImagesProduits (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Produit_ID INT NOT NULL,
+    URL VARCHAR(255) NOT NULL,
+    EstPrincipale BOOLEAN DEFAULT FALSE,
+    Ordre INT,
+    FOREIGN KEY (Produit_ID) REFERENCES Produits(ID) ON DELETE CASCADE
+);
+
+-- Table des Transactions
+CREATE TABLE Transactions (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Produit_ID INT NOT NULL,
+    Acheteur_ID INT NOT NULL,
+    Vendeur_ID INT NOT NULL,
+    TypeVente ENUM('Immediate', 'Negociation', 'MeilleureOffre') NOT NULL,
+    Statut ENUM('EnCours', 'Completee', 'Annulee', 'Remboursee') NOT NULL,
+    PrixFinal DECIMAL(10, 2) NOT NULL,
+    DateTransaction DATETIME DEFAULT CURRENT_TIMESTAMP,
+    DateModification DATETIME ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (Produit_ID) REFERENCES Produits(ID),
+    FOREIGN KEY (Acheteur_ID) REFERENCES Utilisateurs(ID),
+    FOREIGN KEY (Vendeur_ID) REFERENCES Utilisateurs(ID)
+);
+
+-- Table des Enchères
+CREATE TABLE Encheres (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Produit_ID INT NOT NULL,
+    DateDebut DATETIME NOT NULL,
+    DateFin DATETIME NOT NULL,
+    PrixDepart DECIMAL(10, 2) NOT NULL,
+    OffreMax DECIMAL(10, 2),
+    Encherisseur_ID INT,
+    Statut ENUM('EnCours', 'Terminee', 'Annulee') DEFAULT 'EnCours',
+    FOREIGN KEY (Produit_ID) REFERENCES Produits(ID),
+    FOREIGN KEY (Encherisseur_ID) REFERENCES Utilisateurs(ID)
+);
+
+-- Table des Offres d'Enchères
+CREATE TABLE OffresEncheres (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Enchere_ID INT NOT NULL,
+    Utilisateur_ID INT NOT NULL,
+    Montant DECIMAL(10, 2) NOT NULL,
+    DateOffre DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (Enchere_ID) REFERENCES Encheres(ID),
+    FOREIGN KEY (Utilisateur_ID) REFERENCES Utilisateurs(ID)
+);
+
+-- Table des Négociations
+CREATE TABLE Negociations (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Produit_ID INT NOT NULL,
+    Acheteur_ID INT NOT NULL,
+    Vendeur_ID INT NOT NULL,
+    PrixInitial DECIMAL(10, 2) NOT NULL,
+    PrixFinal DECIMAL(10, 2),
+    Statut ENUM('EnCours', 'Acceptee', 'Refusee', 'Expiree') DEFAULT 'EnCours',
+    DateDebut DATETIME DEFAULT CURRENT_TIMESTAMP,
+    DateFin DATETIME,
+    FOREIGN KEY (Produit_ID) REFERENCES Produits(ID),
+    FOREIGN KEY (Acheteur_ID) REFERENCES Utilisateurs(ID),
+    FOREIGN KEY (Vendeur_ID) REFERENCES Utilisateurs(ID)
+);
+
+-- Table des Messages de Négociation
+CREATE TABLE MessagesNegociation (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Negociation_ID INT NOT NULL,
+    Expediteur_ID INT NOT NULL,
+    Message TEXT NOT NULL,
+    DateEnvoi DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (Negociation_ID) REFERENCES Negociations(ID),
+    FOREIGN KEY (Expediteur_ID) REFERENCES Utilisateurs(ID)
+);
+
+-- Table du Panier
+CREATE TABLE Panier (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Utilisateur_ID INT NOT NULL,
+    Produit_ID INT NOT NULL,
+    Quantite INT NOT NULL,
+    DateAjout DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (Utilisateur_ID) REFERENCES Utilisateurs(ID),
+    FOREIGN KEY (Produit_ID) REFERENCES Produits(ID)
+);
+
+-- Table des Notifications
+CREATE TABLE Notifications (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Utilisateur_ID INT NOT NULL,
+    Type ENUM('Systeme', 'Transaction', 'Message') NOT NULL,
+    Message TEXT NOT NULL,
+    Statut ENUM('Lu', 'NonLu') DEFAULT 'NonLu',
+    DateNotification DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (Utilisateur_ID) REFERENCES Utilisateurs(ID)
+);
+
+-- Table des Paiements
+CREATE TABLE Paiements (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Transaction_ID INT NOT NULL,
+    Methode ENUM('CarteBancaire', 'PayPal', 'ChequesCadeaux') NOT NULL,
+    Montant DECIMAL(10, 2) NOT NULL,
+    Statut ENUM('EnAttente', 'Complete', 'Echoue', 'Rembourse') NOT NULL,
+    DatePaiement DATETIME DEFAULT CURRENT_TIMESTAMP,
+    InfosPaiement JSON,
+    FOREIGN KEY (Transaction_ID) REFERENCES Transactions(ID)
+);
+
+-- Table des Avis
+CREATE TABLE Avis (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Produit_ID INT NOT NULL,
+    Utilisateur_ID INT NOT NULL,
+    Note INT NOT NULL CHECK (Note BETWEEN 1 AND 5),
+    Commentaire TEXT,
+    DateAvis DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (Produit_ID) REFERENCES Produits(ID),
+    FOREIGN KEY (Utilisateur_ID) REFERENCES Utilisateurs(ID)
+);
+
+-- Table des Favoris
+CREATE TABLE Favoris (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Utilisateur_ID INT NOT NULL,
+    Produit_ID INT NOT NULL,
+    DateAjout DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (Utilisateur_ID) REFERENCES Utilisateurs(ID),
+    FOREIGN KEY (Produit_ID) REFERENCES Produits(ID)
+);
+
+-- Table des Catégories
+CREATE TABLE Categories (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Nom VARCHAR(100) NOT NULL,
+    Description TEXT,
+    ParentID INT,
+    FOREIGN KEY (ParentID) REFERENCES Categories(ID)
+);
+
+-- Table des Logs
+CREATE TABLE Logs (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Utilisateur_ID INT,
+    Action VARCHAR(255) NOT NULL,
+    Details TEXT,
+    DateLog DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (Utilisateur_ID) REFERENCES Utilisateurs(ID)
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------
+
+
+Table Utilisateurs :
+
+    Stocke les informations sur tous les utilisateurs du site
+    Éléments clés : ID, Nom, Prénom, Email, MotDePasse, Type (Administrateur/Vendeur/Acheteur), DateInscription, Adresse, Téléphone
+
+Table Produits :
+
+    Contient les détails de tous les produits mis en vente
+    Éléments clés : ID, Nom, Description, Prix, Catégorie, Vendeur_ID, TypeVente (Immédiate/Négociation/MeilleureOffre), Quantité, Promotion, Caractéristiques (Taille, Couleur, etc.)
+
+Table ImagesProduits :
+
+    Stocke les liens vers les images des produits
+    Éléments clés : ID, Produit_ID, URL, EstPrincipale
+
+Table Transactions :
+
+    Enregistre toutes les transactions effectuées
+    Éléments clés : ID, Produit_ID, Acheteur_ID, Vendeur_ID, TypeVente, Statut, PrixFinal, DateTransaction
+
+Table Enchères :
+
+    Gère les enchères pour les ventes par meilleure offre
+    Éléments clés : ID, Produit_ID, DateDebut, DateFin, PrixDepart, OffreMax, Encherisseur_ID
+
+Table Négociations :
+
+    Suit les négociations entre acheteurs et vendeurs
+    Éléments clés : ID, Produit_ID, Acheteur_ID, Vendeur_ID, PrixPropose, Statut, DateNégociation
+
+Table Panier :
+
+    Stocke les articles dans le panier des utilisateurs
+    Éléments clés : ID, Utilisateur_ID, Produit_ID, Quantité, DateAjout
+
+Table Notifications :
+
+    Gère les notifications envoyées aux utilisateurs
+    Éléments clés : ID, Utilisateur_ID, Message, Statut, DateNotification
+
+Table Paiements :
+
+    Enregistre les détails des paiements effectués
+    Éléments clés : ID, Transaction_ID, Méthode, Montant, Statut, DatePaiement
+

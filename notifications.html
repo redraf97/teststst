@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - Agora Francia</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.jsdelivr.net/npm/uikit@3.7.6/dist/css/uikit.min.css" rel="stylesheet"/>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .footer {
+            background-color: #1a202c;
+        }
+        .footer .text-muted {
+            color: #e2e8f0 !important;
+        }
+    </style>
+
+    <script src="//cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="//unpkg.com/uikit@3.7.6/dist/js/uikit.min.js"></script>
+
+<script>
+// Fonction pour marquer une notification comme lue
+function markAsRead(button) {
+    const notificationItem = button.closest('.list-group-item');
+    notificationItem.style.textDecoration = 'line-through'; // Marquer comme lu
+    button.disabled = true; // Désactiver le bouton après marquage
+    alert('Notification marquée comme lue !');
+}
+</script>
+
+
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img src="logo.png" alt="Agora Francia" width="150">
+        </a>
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="#">Tout Parcourir</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Votre Compte</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class='container my-5'>
+    <h2 class='text-center'>Vos Notifications</h2> 
+    <div class='row'>
+        <div class='col-md-12'>
+            <!-- Exemple de notification -->
+            <div class='list-group'>
+                <div class='list-group-item'>
+                    <h5>Commande Confirmée</h5>
+                    <p>Votre commande #12345 a été confirmée.</p>
+                    <small>Date : 01/01/2024</small>
+                    <button class='btn btn-link' onclick='markAsRead(this)'>Marquer comme lu</button>
+                </div>
+                <div class='list-group-item'>
+                    <h5>Nouvelle Offre Reçue</h5>
+                    <p>Vous avez reçu une nouvelle offre pour votre produit.</p>
+                    <small>Date : 02/01/2024</small>
+                    <button class='btn btn-link' onclick='markAsRead(this)'>Marquer comme lu</button>
+                </div>
+                <!-- Ajouter d'autres notifications ici -->
+            </div>
+
+            <!-- Lien retour -->
+            <div class='text-center mt-4'>
+                <a href="#" class='btn btn-light'>Retour à mon Profil</a>
+            </div>
+
+        </div> 
+    </div> 
+</div>
+
+<!-- Pied de page -->
+
+
+<footer class="footer py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h5 class="text-white">Liens rapides</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-muted">Accueil</a></li>
+                    <li><a href="#" class="text-muted">Catégories</a></li>
+                    <li><a href="#" class="text-muted">Vendre</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5 class="text-white">Suivez-nous</h5>
+                <div class="uk-flex uk-flex-left">
+                    <a href="#" class="uk-icon-button uk-margin-small-right" uk-icon="twitter"></a>
+                    <a href="#" class="uk-icon-button uk-margin-small-right" uk-icon="facebook"></a>
+                    <a href="#" class="uk-icon-button" uk-icon="instagram"></a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <h5 class="text-white">Contact</h5>
+                <address class="text-muted">
+                    <p>123 Rue du Commerce, 75001 Paris</p>
+                    <p>Email: contact@agorafrancia.com</p>
+                    <p>Tél: +33 1 23 45 67 89</p>
+                </address>
+            </div>
+        </div>
+        <hr class="my-4 bg-gray-600">
+        <p class="text-center text-muted">© 2024 Agora Francia. Tous droits réservés.</p>
+    </div>
+</footer>
+
+<script src="//cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="//unpkg.com/uikit@3.7.6/dist/js/uikit.min.js"></script>
+
+<!-- Optionnel : Script pour gérer les soumissions de formulaire -->
+<script>
+// Exemple de gestion de soumission d'avis
+document.getElementById('reviewForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert('Merci pour votre avis !');
+});
+</script>
+
+</body>
+</html>
+
